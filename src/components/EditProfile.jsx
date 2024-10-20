@@ -17,29 +17,66 @@ const EditProfile = ({ user }) => {
 
   const dispatch = useDispatch();
 
+  const validateFields = () => {
+    if (!firstName.trim()) {
+      setError("First name is required");
+      return false;
+    }
+    if (!lastName.trim()) {
+      setError("Last name is required");
+      return false;
+    }
+    if (!age || isNaN(age) || age <= 0) {
+      setError("Age must be a valid number greater than 0");
+      return false;
+    }
+    if (
+      !photoUrl.trim() ||
+      !/^https?:\/\/.+\.(jpg|jpeg|png|gif)$/.test(photoUrl)
+    ) {
+      setError("Please provide a valid image URL");
+      return false;
+    }
+    if (!gender.trim()) {
+      setError("Gender is required");
+      return false;
+    }
+    if (!about.trim()) {
+      setError("About section cannot be empty");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
   const saveProfile = async () => {
     setError("");
-    try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        {
-          firstName,
-          lastName,
-          photoUrl,
-          age,
-          gender,
-          about,
-        },
-        {
-          withCredentials: true,
-        }
-      );
 
-      dispatch(addUser(res?.data?.data));
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+    try {
+      if (validateFields()) {
+        const res = await axios.patch(
+          BASE_URL + "/profile/edit",
+          {
+            firstName,
+            lastName,
+            photoUrl,
+            age,
+            gender,
+            about,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        dispatch(addUser(res?.data?.data));
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 3000);
+      } else {
+        setError("Please fill all fields with valid information");
+      }
     } catch (err) {
       setError(err?.response?.data);
     }
