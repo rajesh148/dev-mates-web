@@ -7,14 +7,18 @@ const ConnectionCard = ({ connection }) => {
     <div className="flex justify-center">
       <div className="card card-side w-1/2 bg-base-300 shadow-xl my-4">
         <figure>
-          <img className="w-48" src={photoUrl} alt="User icon" />
+          <img className="w-40" src={photoUrl} alt="User icon" />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{firstName + " " + lastName}</h2>
+          {age && gender && (
+            <h2 className="card-description text-left">{age + "," + gender}</h2>
+          )}
+          {/* {age && gender && <h2>{age + "," + gender}</h2>} */}
           <p>{about}</p>
-          <div className="card-actions justify-end">
+          {/* <div className="card-actions justify-end">
             <button className="btn btn-primary">Watch</button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
