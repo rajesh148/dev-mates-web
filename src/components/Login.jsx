@@ -27,8 +27,8 @@ const Login = () => {
       dispatch(addUser(res.data));
       navigate("/");
     } catch (err) {
-      setError(err?.response?.data || "Something went wrong!");
-      //   console.log("Login " + err);
+      setError(err?.response?.data || "Something went wrong! from login");
+      console.log("Login " + err);
     }
   };
 
