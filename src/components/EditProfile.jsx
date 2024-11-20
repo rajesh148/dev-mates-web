@@ -12,6 +12,7 @@ const EditProfile = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
+  const [skills, setSkills] = useState(user.skills);
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
 
@@ -63,6 +64,7 @@ const EditProfile = ({ user }) => {
             age,
             gender,
             about,
+            skills,
           },
           {
             withCredentials: true,
@@ -155,6 +157,18 @@ const EditProfile = ({ user }) => {
                   </select>
                 </label>
 
+                <label className="form-control w-full max-w-xs my-2">
+                  <div className="label">
+                    <span className="label-text">Skills</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={skills}
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={(e) => setSkills(e.target.value)}
+                  />
+                </label>
+
                 <label className="form-control">
                   <div className="label">
                     <span className="label-text">About</span>
@@ -177,7 +191,7 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
         <UserCard
-          user={{ firstName, lastName, photoUrl, age, gender, about }}
+          user={{ firstName, lastName, photoUrl, age, gender, about, skills }}
         />
       </div>
 
