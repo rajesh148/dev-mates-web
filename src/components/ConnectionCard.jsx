@@ -1,26 +1,38 @@
 import React from "react";
 
-const ConnectionCard = ({ connection }) => {
+const ConnectionCard = ({ connection, isRequests }) => {
   const { firstName, lastName, photoUrl, age, gender, about, skills } =
     connection;
   return (
-    <div className="flex justify-center">
-      <div className="card card-side w-1/2 bg-base-300 shadow-xl my-4">
-        <figure>
-          <img className="w-40" src={photoUrl} alt="User icon" />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{firstName + " " + lastName}</h2>
-          {age && gender && (
-            <h2 className="card-description text-left">{age + "," + gender}</h2>
-          )}
-          {/* {age && gender && <h2>{age + "," + gender}</h2>} */}
-          <p>{about}</p>
-          {/* <div className="card-actions justify-end">
-            <button className="btn btn-primary">Watch</button>
-          </div> */}
-        </div>
-      </div>
+    <div className="text-center my-10">
+      <h1 className="text-bold text-white text-3xl">Connections</h1>
+
+      {connections.map((connection) => {
+        const { _id, firstName, lastName, photoUrl, age, gender, about } =
+          connection;
+
+        return (
+          <div
+            key={_id}
+            className=" flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto"
+          >
+            <div>
+              <img
+                alt="photo"
+                className="w-20 h-20 rounded-full object-cover"
+                src={photoUrl}
+              />
+            </div>
+            <div className="text-left mx-4 ">
+              <h2 className="font-bold text-xl">
+                {firstName + " " + lastName}
+              </h2>
+              {age && gender && <p>{age + ", " + gender}</p>}
+              <p>{about}</p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
