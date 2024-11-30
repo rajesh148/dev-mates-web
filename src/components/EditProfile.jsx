@@ -52,11 +52,12 @@ const EditProfile = ({ user }) => {
 
   const saveProfile = async () => {
     setError("");
-
+    console.log("clied save profile");
     try {
       if (validateFields()) {
+        console.log("valid");
         const res = await axios.patch(
-          BASE_URL + "/profile/edit",
+          `${BASE_URL}/profile/edit`,
           {
             firstName,
             lastName,
@@ -64,14 +65,14 @@ const EditProfile = ({ user }) => {
             age,
             gender,
             about,
-            skills,
           },
           {
             withCredentials: true,
           }
         );
-
+        console.log("res in edit ", res);
         dispatch(addUser(res?.data?.data));
+        console.log("EDIT ", res?.data?.data);
         setShowToast(true);
         setTimeout(() => {
           setShowToast(false);

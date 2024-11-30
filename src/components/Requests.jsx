@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../store/requestsSlice";
+import { addRequest, removeRequest } from "../store/requestsSlice";
 import ConnectionCard from "./ConnectionCard";
 
 const Requests = () => {
@@ -23,6 +23,21 @@ const Requests = () => {
       console.log(err);
     }
   };
+
+  const reviewRequest = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+
+      dispatch(removeRequest(_id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   if (!requests) return;
 
   if (requests.length === 0)
