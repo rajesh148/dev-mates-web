@@ -4,6 +4,7 @@ import UserCard from "./UserCard";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../store/userSlice";
+import { toast } from "react-toastify";
 
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
@@ -12,8 +13,8 @@ const EditProfile = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
-  const [skills, setSkills] = useState(user.skills);
-  const [showToast, setShowToast] = useState(false);
+  const [skills, setSkills] = useState(user.skills.join(", "));
+  // const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const EditProfile = ({ user }) => {
 
   const saveProfile = async () => {
     setError("");
+    const processedSkills = skills
+      .split(",") // Split the string into an array
+      .map((skill) => skill.trim()) // Remove leading/trailing whitespace from each skill
+      .filter((skill) => skill); // Remove empty values (in case of trailing commas)
     console.log("clied save profile");
     try {
       if (validateFields()) {
@@ -65,6 +70,7 @@ const EditProfile = ({ user }) => {
             age,
             gender,
             about,
+            skills: processedSkills,
           },
           {
             withCredentials: true,
@@ -73,10 +79,9 @@ const EditProfile = ({ user }) => {
         console.log("res in edit ", res);
         dispatch(addUser(res?.data?.data));
         console.log("EDIT ", res?.data?.data);
-        setShowToast(true);
-        setTimeout(() => {
-          setShowToast(false);
-        }, 3000);
+        toast.success("Profile updated successfully. ", {
+          position: "top-center",
+        });
       } else {
         setError("Please fill all fields with valid information");
       }
@@ -196,13 +201,13 @@ const EditProfile = ({ user }) => {
         />
       </div>
 
-      {showToast && (
+      {/* {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
             <span>Profile updated successfully.</span>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };

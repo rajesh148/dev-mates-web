@@ -3,12 +3,14 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("arun@gmail.com");
   const [password, setPassword] = useState("Arun@123");
   const [error, setError] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,8 +26,12 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      dispatch(addUser(res.data));
-      navigate("/");
+      console.log(res.data);
+      dispatch(addUser(res.data?.data));
+      toast.success(res.data.message, {
+        position: "top-center",
+      });
+      return navigate("/");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong! from login");
       console.log("Login " + err);
@@ -68,8 +74,24 @@ const Login = () => {
               Login
             </button>
           </div>
+          <div className="text-center">
+            <h1>
+              Dont have account?{" "}
+              <Link className="text-xl underline text-white" to="/signup">
+                Signup
+              </Link>
+            </h1>
+          </div>
         </div>
       </div>
+
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            <span>Profile updated successfully.</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

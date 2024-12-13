@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../store/userSlice";
 import { removeConnection } from "../store/connectionsSlice";
 import { clearRequests } from "../store/requestsSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -17,6 +18,9 @@ const Navbar = () => {
       dispatch(removeUser());
       dispatch(removeConnection());
       dispatch(clearRequests());
+      toast.success("Logout successfully!", {
+        position: "top-center",
+      });
       navigate("/login");
     } catch (err) {
       console.error("logout" + err);
