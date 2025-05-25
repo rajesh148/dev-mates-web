@@ -30,9 +30,11 @@ const Body = () => {
     fetchUser();
   }, []);
   return (
-    <div>
+    <div className="flex flex-col min-h-screen overflow-hidden">
       <Navbar />
-      <Outlet />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );
